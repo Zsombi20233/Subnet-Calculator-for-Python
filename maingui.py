@@ -32,10 +32,10 @@ def reverse_mask_calc(mask_str: str):
         cidr = 0
         for octet in octets:
             num = int(octet)
-            if 0 <= num <= 255:
-                cidr += bin(num).count('1')
-            else:
+            if not (num == 128 or num == 192 or num == 224 or num == 240 or num == 248 or num == 252 or num == 254 or num == 255 or num == 0):
                 return None
+            else:
+                cidr += bin(num).count('1')
         return cidr
     except:
         return None
