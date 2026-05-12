@@ -1,6 +1,15 @@
 import tkinter as tk
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
+import winreg
+
+# change the theme to Windows theme
+
+def get_windows_theme():
+    registry = winreg.ConnectRegistry(None, winreg.HKEY_CURRENT_USER)
+    key = winreg.OpenKey(registry, r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize")
+    value, _ = winreg.QueryValueEx(key, "AppsUseLightTheme")
+    return "flatly" if value == 1 else "darkly" 
 
 # this section is for calculating the mask from CIDR to Dotted Decimal
 
@@ -33,7 +42,9 @@ def reverse_mask_calc(mask_str: str):
     
 # this is for GUI for the main app
 
-root = ttk.Window(title="Network calculator", themename="flatly")
+current_theme = get_windows_theme()
+
+root = ttk.Window(title="Network calculator", themename=current_theme)
 
 notebook = ttk.Notebook(root, bootstyle=PRIMARY)
 notebook.pack(padx=10, pady=10, expand=True, fill=BOTH)
